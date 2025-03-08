@@ -7,7 +7,16 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Dapper" Version="2.1.66" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2"/>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Controllers\" />
+      <Folder Include="Middleware\" />
+      <Folder Include="Models\" />
+      <Folder Include="Repositories\" />
+      <Folder Include="Services\" />
     </ItemGroup>
 
 </Project>
