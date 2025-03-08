@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Budegtify.Test")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4b2efd3b522f26ed500929a5bf4167b811089f87")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4a9c90a13824922e78fcd8d7c1e80b1c2702e2e2")]
 [assembly: System.Reflection.AssemblyProductAttribute("Budegtify.Test")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Budegtify.Test")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
