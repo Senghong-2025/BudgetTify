@@ -1,5 +1,8 @@
 ﻿using Budgetify.Data;
+using Budgetify.Models.Request;
+using Budgetify.Services;
 using Dapper;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Budgetify.Controllers
@@ -7,20 +10,24 @@ namespace Budgetify.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class UserController
+    public class UserController: ControllerBase
     {
-        private readonly IDbConnection _db;
-        public UserController(IDbConnection db)
+        private readonly IUserService _userService;
+        public UserController(IUserService userService)
         {
-            _db = db;
+            _userService = userService;
         }
-        [HttpGet("get-user")]
-        public IActionResult GetUser()
+        [HttpPost("register")]
+        public IActionResult Register(RegisterRequest request)
         {
-            var connection = _db.CreateConnection();
-            var sp = "SELECT * FROM Users";
-            var result = connection.Query(sp);
-            return new OkObjectResult(result);
+            var result = _userService.UserRegister(request);
+            return Ok(result);
+        }
+        [HttpGet("all-users")]
+        public IActionResult GetAllUsers()
+        {
+            var result = _userService.GetAllUsers();
+            return Ok(result);
         }
     }
 }
