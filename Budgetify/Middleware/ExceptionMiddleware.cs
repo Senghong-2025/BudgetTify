@@ -28,7 +28,7 @@ public class ExceptionMiddleware
             // Set status code and return the custom error response
             httpContext.Response.ContentType = "application/json";
             httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-            var errorResponse = new BaseApiResponse<string>(
+            var errorResponse = new ApiResponse<string>(
                 (int)HttpStatusCode.InternalServerError,
                 "Unhandled exception occurred.",
                 JsonSerializer.Serialize(new

@@ -7,7 +7,7 @@ namespace Budgetify.Services;
 
 public interface IUserService
 {
-    BaseApiResponse<UserDto> UserRegister(RegisterRequest request);
-    BaseApiResponse<List<GetAllUser>> GetAllUsers();
-    BaseApiResponse<LoginResponse> Login (LoginRequest request);
+    BaseResponse UserRegister(RegisterRequest request);
+    ApiResponse<List<GetAllUser>> GetAllUsers();
+    ApiResponse<LoginResponse> Login (LoginRequest request);
 }

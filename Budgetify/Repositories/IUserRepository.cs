@@ -10,8 +10,8 @@ namespace Budgetify.Repositories;
 public interface IUserRepository
 {
     UserDto UserRegister(RegisterRequest request);
-    BaseApiResponse<List<GetAllUser>> GetAllUsers();
+    ApiResponse<List<GetAllUser>> GetAllUsers();
     string GetUserByUsername(string username);
     string GetUserByEmail(string email);
-    LoginResponse Login (LoginRequest request);
+    ApiResponse<LoginResponse> Login (LoginRequest request);
 }

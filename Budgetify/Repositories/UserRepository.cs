@@ -31,12 +31,12 @@ public class UserRepository: IUserRepository
         return result;
     }
 
-    public BaseApiResponse<List<GetAllUser>> GetAllUsers()
+    public ApiResponse<List<GetAllUser>> GetAllUsers()
     {
        var connection = _db.CreateConnection();
          var sp = "[dbo].[GetAllUsers_1.0]";
             var result = connection.Query<GetAllUser>(sp, commandType: CommandType.StoredProcedure);
-            return new BaseApiResponse<List<GetAllUser>>(
+            return new ApiResponse<List<GetAllUser>>(
                 errorCode:0 , 
                 errorMessage:"Success",
                 result.ToList()
@@ -54,7 +54,7 @@ public class UserRepository: IUserRepository
        return "User found";
     }
 
-    public LoginResponse Login(LoginRequest request)
+    public ApiResponse<LoginResponse> Login(LoginRequest request)
     {
         var connection = _db.CreateConnection();
         var sp = "[dbo].[Login_1.0]";
@@ -64,6 +64,6 @@ public class UserRepository: IUserRepository
             PasswordHash = request.Password,
             request.IpAddress
         }, commandType: CommandType.StoredProcedure);
-        return result;
+        return new ApiResponse<LoginResponse>(result);
     }
 }

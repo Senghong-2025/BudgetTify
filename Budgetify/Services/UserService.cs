@@ -19,7 +19,7 @@ public class UserService: IUserService
         _appValidator = appValidator;
         _jwtService = jwtService;
     }
-    public BaseApiResponse<UserDto> UserRegister(RegisterRequest request)
+    public BaseResponse UserRegister(RegisterRequest request)
     {
         var validationMessages = new List<string>();
     
@@ -33,27 +33,32 @@ public class UserService: IUserService
             validationMessages.Add("Invalid email format");
     
         if (validationMessages.Any())
-            return new BaseApiResponse<UserDto>((int)EnumErrorCode.ValidationFailed, string.Join(", ", validationMessages));
+            return new BaseResponse((int)EnumErrorCode.ValidationFailed, string.Join(", ", validationMessages));
     
         var users = _userRepository.GetAllUsers().Data;
         if (users.Any(x => x.Username == request.Username || x.Email == request.Email))
-            return new BaseApiResponse<UserDto>((int)EnumErrorCode.DuplicateRecord, "Username or Email is already taken");
+            return new BaseResponse((int)EnumErrorCode.DuplicateRecord, "Username or Email is already taken");
     
         var result = _userRepository.UserRegister(request);
-        return new BaseApiResponse<UserDto>((int)EnumErrorCode.Success, "Registration successful", result);
+        return new ApiResponse<UserDto>(result);
     }
 
 
-    public BaseApiResponse<List<GetAllUser>> GetAllUsers()
+    public ApiResponse<List<GetAllUser>> GetAllUsers()
     {
         return _userRepository.GetAllUsers();
     }
 
-    public BaseApiResponse<LoginResponse> Login(LoginRequest request)
+    public ApiResponse<LoginResponse> Login(LoginRequest request)
     {
         var result = _userRepository.Login(request);
-        var token = _jwtService.GenerateToken(result);
-        result.Token = token;
-        return new BaseApiResponse<LoginResponse>((int)EnumErrorCode.Success, "Login successful", result);
+        var data = result.Data;
+        if (data.UserId == -1) 
+            return new ApiResponse<LoginResponse>((int)EnumErrorCode.UserNotFound, "User not found");
+        if (data.ErrorCode == (int)EnumErrorCode.PasswordIncorrect)
+            return new ApiResponse<LoginResponse>((int)EnumErrorCode.PasswordIncorrect, "Wrong username or password");
+        var token = _jwtService.GenerateToken(data);
+        data.Token = token;
+        return new ApiResponse<LoginResponse>(data);
     }
 }
