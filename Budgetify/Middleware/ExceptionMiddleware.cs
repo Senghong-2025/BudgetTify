@@ -34,7 +34,6 @@ public class ExceptionMiddleware
                 JsonSerializer.Serialize(new
                 {
                     requestPath = httpContext.Request.Path,
-                    body =  httpContext.Request.Body,
                     headers = httpContext.Request.Headers
                 }, new JsonSerializerOptions { WriteIndented = true })
             );

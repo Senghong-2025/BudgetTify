@@ -29,5 +29,11 @@ namespace Budgetify.Controllers
             var result = _userService.GetAllUsers();
             return Ok(result);
         }
+        [HttpPost("login")]
+        public IActionResult Login(LoginRequest request)
+        {
+            var result = _userService.Login(request);
+            return Ok(result);
+        }
     }
 }

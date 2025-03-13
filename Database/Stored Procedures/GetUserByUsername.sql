@@ -1,4 +1,4 @@
-CREATE PROCEDURE GetUserByUsername_1_0(
+CREATE PROCEDURE [dbo].[GetUserByUsername_1.0](
     @username NVARCHAR(100)
 )
 AS

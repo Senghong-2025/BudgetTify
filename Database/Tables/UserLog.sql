@@ -1,0 +1,7 @@
+CREATE TABLE UserLog (
+    [Id] INT IDENTITY(1,1) PRIMARY KEY,
+    [UserId] INT NOT NULL,
+    [LoginTime] DATETIME2 DEFAULT GETDATE(),
+    [IpAddress] NVARCHAR(45) NULL,
+    FOREIGN KEY ([UserId]) REFERENCES [Users]([Id]) ON DELETE CASCADE
+);

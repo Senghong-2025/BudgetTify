@@ -12,10 +12,12 @@ public class UserService: IUserService
 {
     private readonly IUserRepository _userRepository;
     private readonly AppValidator _appValidator;
-    public UserService(IUserRepository userRepository, AppValidator appValidator)
+    private readonly IJwtService _jwtService;
+    public UserService(IUserRepository userRepository, AppValidator appValidator, IJwtService jwtService)
     {
         _userRepository = userRepository;
         _appValidator = appValidator;
+        _jwtService = jwtService;
     }
     public BaseApiResponse<UserDto> UserRegister(RegisterRequest request)
     {
@@ -45,5 +47,13 @@ public class UserService: IUserService
     public BaseApiResponse<List<GetAllUser>> GetAllUsers()
     {
         return _userRepository.GetAllUsers();
+    }
+
+    public BaseApiResponse<LoginResponse> Login(LoginRequest request)
+    {
+        var result = _userRepository.Login(request);
+        var token = _jwtService.GenerateToken(result);
+        result.Token = token;
+        return new BaseApiResponse<LoginResponse>((int)EnumErrorCode.Success, "Login successful", result);
     }
 }

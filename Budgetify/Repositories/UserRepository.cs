@@ -18,13 +18,13 @@ public class UserRepository: IUserRepository
     public UserDto UserRegister(RegisterRequest request)
     {
         var connection = _db.CreateConnection();
-        var sp = "Register_1_0";
+        var sp = "[dbo].[Register_1.0]";
         
         var result = connection.QuerySingle<UserDto>(sp, new
         {
             Username = request.Username,
-            PasswordHash = request.Password,
             Email = request.Email,
+            PasswordHash = request.Password,
             FirstName = request.FirstName,
             LastName = request.LastName
         }, commandType: CommandType.StoredProcedure);
@@ -34,7 +34,7 @@ public class UserRepository: IUserRepository
     public BaseApiResponse<List<GetAllUser>> GetAllUsers()
     {
        var connection = _db.CreateConnection();
-         var sp = "GetAllUsers_1_0";
+         var sp = "[dbo].[GetAllUsers_1.0]";
             var result = connection.Query<GetAllUser>(sp, commandType: CommandType.StoredProcedure);
             return new BaseApiResponse<List<GetAllUser>>(
                 errorCode:0 , 
@@ -52,5 +52,18 @@ public class UserRepository: IUserRepository
     {
        var connection = _db.CreateConnection();
        return "User found";
+    }
+
+    public LoginResponse Login(LoginRequest request)
+    {
+        var connection = _db.CreateConnection();
+        var sp = "[dbo].[Login_1.0]";
+        var result = connection.QuerySingle<LoginResponse>(sp, new
+        {
+            request.UsernameOrEmail,
+            PasswordHash = request.Password,
+            request.IpAddress
+        }, commandType: CommandType.StoredProcedure);
+        return result;
     }
 }

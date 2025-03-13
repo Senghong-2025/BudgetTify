@@ -9,4 +9,5 @@ public interface IUserService
 {
     BaseApiResponse<UserDto> UserRegister(RegisterRequest request);
     BaseApiResponse<List<GetAllUser>> GetAllUsers();
+    BaseApiResponse<LoginResponse> Login (LoginRequest request);
 }

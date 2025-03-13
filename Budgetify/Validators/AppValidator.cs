@@ -12,11 +12,10 @@ public class AppValidator
 
     public bool IsValidPassword(string password)
     {
-        if (string.IsNullOrEmpty(password))
+        if (string.IsNullOrEmpty(password) || password.Length != 4)
             return false;
-    
-        var regex = new Regex(@"^(?=.*[A-Za-z])(?=.*\d.*\d.*\d.*\d).+$");
-        return regex.IsMatch(password);
+
+        return Regex.IsMatch(password, @"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{4}$");
     }
 
     public bool IsValidUsername(string username)

@@ -23,6 +23,7 @@ builder.Services.AddScoped<IDbConnection, DbConnection>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddSingleton<AppValidator>();
+builder.Services.AddSingleton<IJwtService, JwtService>();
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.
