@@ -4,6 +4,7 @@ using Budgetify.Data;
 using Budgetify.Middleware;
 using Budgetify.Repositories;
 using Budgetify.Services;
+using Budgetify.Validators;
 using DbConnection = Budgetify.Data.DbConnection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,6 +22,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IDbConnection, DbConnection>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddSingleton<AppValidator>();
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.

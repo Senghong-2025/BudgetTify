@@ -1,5 +1,6 @@
 ﻿using System.Data;
 using Budgetify.Models;
+using Budgetify.Models.DTOs;
 using Budgetify.Models.Request;
 using Budgetify.Models.Response;
 using Dapper;
@@ -14,12 +15,12 @@ public class UserRepository: IUserRepository
     {
         _db = db;
     }
-    public string? UserRegister(RegisterRequest request)
+    public UserDto UserRegister(RegisterRequest request)
     {
         var connection = _db.CreateConnection();
         var sp = "Register_1_0";
         
-        var result = connection.Query(sp, new
+        var result = connection.QuerySingle<UserDto>(sp, new
         {
             Username = request.Username,
             PasswordHash = request.Password,
@@ -27,7 +28,7 @@ public class UserRepository: IUserRepository
             FirstName = request.FirstName,
             LastName = request.LastName
         }, commandType: CommandType.StoredProcedure);
-        return "User registered successfully";
+        return result;
     }
 
     public BaseApiResponse<List<GetAllUser>> GetAllUsers()

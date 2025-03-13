@@ -8,9 +8,14 @@
 
     <ItemGroup>
         <PackageReference Include="Dapper" Version="2.1.66" />
+        <PackageReference Include="JWT" Version="11.0.0" />
         <PackageReference Include="NLog.Extensions.Logging" Version="5.4.0" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2"/>
         <PackageReference Include="System.Data.SqlClient" Version="4.9.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Filters\" />
     </ItemGroup>
 
 </Project>
