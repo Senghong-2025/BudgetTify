@@ -3,6 +3,6 @@ AS
 BEGIN
     SET NOCOUNT ON;
 
-    SELECT [Id], [Username], [Email], [FirstName], [LastName], [CreatedAt], [UpdatedAt]
+    SELECT [Id] AS [UserId], [Username], [Email], [FirstName], [LastName], [CreatedAt], [UpdatedAt]
     FROM [Users] WITH (NOLOCK);
 END
