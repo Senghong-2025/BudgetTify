@@ -29,7 +29,16 @@ public class CategoryRepository: ICategoryRepository
     {
         var connection = _dbConnection.CreateConnection();
         var sp = "[dbo].[UpdateCategory_1.0]";
-        var result = connection.QueryFirstOrDefault<BaseResponse>(sp, request, commandType: CommandType.StoredProcedure);
+        var result = connection.QueryFirstOrDefault<BaseResponse>
+        (
+            sp,
+        new {
+            Id = request.CategoryId,
+            Name = request.Name,
+            Type = request.Type,
+        }, 
+            commandType: CommandType.StoredProcedure
+        );
         return result ?? new BaseResponse((int)EnumErrorCode.UnknownError, "Update Failed");
     }
 

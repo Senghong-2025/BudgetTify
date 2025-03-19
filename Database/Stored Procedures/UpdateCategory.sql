@@ -1,6 +1,5 @@
 CREATE PROCEDURE [dbo].[UpdateCategory_1.0] (
     @id INT,
-    @userId INT,
     @name NVARCHAR(100),
     @type CHAR(7)
 )
@@ -10,8 +9,7 @@ BEGIN
 
     UPDATE [Categories]
     SET [Name] = @name, 
-        [Type] = @type, 
-        [UserId] = @userId
+        [Type] = @type
     WHERE [Id] = @id;
 
     IF @@ROWCOUNT = 0
