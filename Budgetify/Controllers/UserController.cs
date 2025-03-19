@@ -1,4 +1,5 @@
 ﻿using Budgetify.Data;
+using Budgetify.Filters;
 using Budgetify.Models.Request;
 using Budgetify.Services;
 using Dapper;
@@ -24,6 +25,7 @@ namespace Budgetify.Controllers
             return Ok(result);
         }
         [HttpGet("all-users")]
+        [ServiceFilter((typeof(JwtFilter)))]
         public IActionResult GetAllUsers()
         {
             var result = _userService.GetAllUsers();

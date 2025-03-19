@@ -1,12 +1,9 @@
-﻿using System;
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Budgetify.Models.Request;
+using Budgetify.Models.DTOs;
 using Budgetify.Models.Response;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using JwtRegisteredClaimNames = Microsoft.IdentityModel.JsonWebTokens.JwtRegisteredClaimNames;
 
 namespace Budgetify.Services
 {
@@ -16,13 +13,14 @@ namespace Budgetify.Services
         private readonly string _secret;
         private readonly string _issuer;
         private readonly string _audience;
-
-        public JwtService(IConfiguration configuration)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public JwtService(IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
         {
             _configuration = configuration;
             _secret = _configuration["Jwt:Secret"];
             _issuer = _configuration["Jwt:Issuer"];
             _audience = _configuration["Jwt:Audience"];
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public string GenerateToken(LoginResponse response)
@@ -30,7 +28,7 @@ namespace Budgetify.Services
             var claims = new[]
             {
                 new Claim("id", response.UserId.ToString()),
-                new Claim(JwtRegisteredClaimNames.UniqueName, response.Username),
+                new Claim("name", response.Username),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 
@@ -72,6 +70,41 @@ namespace Budgetify.Services
             {
                 return null;
             }
+        }
+        
+        public UserDto GetUserToken()
+        {
+            var httpContext = _httpContextAccessor.HttpContext;
+            if (httpContext == null)
+            {
+                return new UserDto();
+            }
+
+            var token = httpContext.Request.Headers.Authorization.ToString().Replace("Bearer ", "");
+            if (string.IsNullOrWhiteSpace(token))
+            {
+                return new UserDto();
+            }
+
+            var principal = ValidateToken(token);
+            if (principal == null)
+            {
+                return new UserDto();
+            }
+
+            var username = principal.Claims.FirstOrDefault(c => c.Type == "name")?.Value;
+            var userId = principal.Claims.FirstOrDefault(c => c.Type == "id")?.Value;
+
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(userId))
+            {
+                return new UserDto();
+            }
+
+            return new UserDto
+            {
+                Username = username,
+                UserId = int.TryParse(userId, out var parsedUserId) ? parsedUserId : 0
+            };
         }
     }
 }

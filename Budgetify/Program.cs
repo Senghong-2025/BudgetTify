@@ -1,6 +1,5 @@
-using System.Data.Common;
-using System.Text.Json;
 using Budgetify.Data;
+using Budgetify.Filters;
 using Budgetify.Middleware;
 using Budgetify.Repositories;
 using Budgetify.Services;
@@ -14,6 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddLogging();
 builder.Logging.AddConsole(); // Logs to the console
 builder.Logging.AddDebug(); // Logs to the debug output
+builder.Services.AddHttpContextAccessor();
 
 // Example of a simple log message at startup
 builder.Services.AddControllers();
@@ -24,6 +24,9 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddSingleton<AppValidator>();
 builder.Services.AddSingleton<IJwtService, JwtService>();
+builder.Services.AddScoped<JwtFilter>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.

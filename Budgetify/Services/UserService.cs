@@ -5,6 +5,7 @@ using Budgetify.Models.Request;
 using Budgetify.Models.Response;
 using Budgetify.Repositories;
 using Budgetify.Validators;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Budgetify.Services;
 
@@ -42,7 +43,6 @@ public class UserService: IUserService
         var result = _userRepository.UserRegister(request);
         return new ApiResponse<UserDto>(result);
     }
-
 
     public ApiResponse<List<GetAllUser>> GetAllUsers()
     {
