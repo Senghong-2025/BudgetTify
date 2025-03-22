@@ -1,0 +1,9 @@
+CREATE TABLE [dbo].[UserWallets] (
+    [Id] INT IDENTITY(1,1) PRIMARY KEY,
+    [UserId] INT NOT NULL,
+    [Balance] DECIMAL(19,6) NOT NULL DEFAULT 0.00,
+    [Currency] CHAR(3) NOT NULL DEFAULT 'USD',
+    [CreatedAt] DATETIME2 DEFAULT GETDATE(),
+    [UpdatedAt] DATETIME2 DEFAULT GETDATE(),
+    [IsActive] BIT DEFAULT 1
+);
