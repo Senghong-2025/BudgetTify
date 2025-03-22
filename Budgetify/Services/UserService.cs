@@ -41,7 +41,7 @@ public class UserService: IUserService
             return new BaseResponse((int)EnumErrorCode.DuplicateRecord, "Username or Email is already taken");
     
         var result = _userRepository.UserRegister(request);
-        return new ApiResponse<UserDto>(result);
+        return result;
     }
 
     public ApiResponse<List<GetAllUser>> GetAllUsers()

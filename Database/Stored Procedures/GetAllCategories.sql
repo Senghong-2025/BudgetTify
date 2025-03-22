@@ -5,8 +5,11 @@ AS
 BEGIN
     SET NOCOUNT ON;
 
-    SELECT [Id], [Name], [Type], [UserId] FROM [dbo].[Categories] WITH (NOLOCK)
-    WHERE [UserId] = @userId;
+    SELECT c.[Id], c.[Name], c.[Type], u.[Id] AS [UserId], u.[Username]
+        FROM [dbo].[Categories] c WITH (NOLOCK)
+    INNER JOIN [dbo].[Users] u WITH (NOLOCK) 
+        ON c.[UserId] = u.[Id]
+    WHERE c.[UserId] = @userId;
 
     IF @@error = 0
     BEGIN
@@ -14,6 +17,6 @@ BEGIN
     END
     ELSE
     BEGIN
-        SELECT 1000 AS [ErrorCode], 'Create category failed' AS [ErrorMessage]
+        SELECT 1000 AS [ErrorCode], 'Retrieve category failed' AS [ErrorMessage]
     END
 END

@@ -15,32 +15,29 @@ public class UserRepository: IUserRepository
     {
         _db = db;
     }
-    public UserDto UserRegister(RegisterRequest request)
+    public ApiResponse<UserDto> UserRegister(RegisterRequest request)
     {
-        var connection = _db.CreateConnection();
         var sp = "[dbo].[Register_1.0]";
-        
-        var result = connection.QuerySingle<UserDto>(sp, new
-        {
-            Username = request.Username,
-            Email = request.Email,
-            PasswordHash = request.Password,
-            FirstName = request.FirstName,
-            LastName = request.LastName
-        }, commandType: CommandType.StoredProcedure);
-        return result;
+        var result = _db.GetSingleData<UserDto>(sp,
+            new
+            {
+                Username = request.Username,
+                Email = request.Email,
+                PasswordHash = request.Password,
+                FirstName = request.FirstName,
+                LastName = request.LastName
+
+            }
+        );
+        return new ApiResponse<UserDto>(result);
     }
 
     public ApiResponse<List<GetAllUser>> GetAllUsers()
     {
-       var connection = _db.CreateConnection();
          var sp = "[dbo].[GetAllUsers_1.0]";
-            var result = connection.Query<GetAllUser>(sp, commandType: CommandType.StoredProcedure);
-            return new ApiResponse<List<GetAllUser>>(
-                errorCode:0 , 
-                errorMessage:"Success",
-                result.ToList()
-            );
+         var result = _db.GetData<GetAllUser>(sp);
+         return new ApiResponse<List<GetAllUser>>(result.ToList());
+           
     }
 
     public string GetUserByUsername(string username)

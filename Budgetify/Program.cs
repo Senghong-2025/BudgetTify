@@ -1,6 +1,7 @@
 using Budgetify.Data;
 using Budgetify.Filters;
 using Budgetify.Middleware;
+using Budgetify.Models.Response;
 using Budgetify.Repositories;
 using Budgetify.Services;
 using Budgetify.Validators;
@@ -27,6 +28,8 @@ builder.Services.AddSingleton<IJwtService, JwtService>();
 builder.Services.AddScoped<JwtFilter>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<ITransactionService, TransactionService>();
+builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.
